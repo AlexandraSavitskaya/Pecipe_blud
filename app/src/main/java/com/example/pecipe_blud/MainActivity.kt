@@ -52,6 +52,11 @@ class MainActivity : AppCompatActivity() {
             )
             startActivity(intent)
         }
+        mainBinding.textView1.setOnClickListener {
+            val intent = Intent(this, RegistrationActivity::class.java
+            )
+            startActivity(intent)
+        }
     }
 
 }
