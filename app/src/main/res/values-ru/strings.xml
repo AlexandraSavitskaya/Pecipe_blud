@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Pecipe_blud</string>
+    <string name="app_name">Рецепты блюд</string>
     <string name="title_activity_recepty">ReceptyActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_izbrannoe">izbrannoe</string>
-    <string name="title_recepty">recepty</string>
-    <string name="title_profil">profil</string>
+    <string name="title_izbrannoe">Избранное</string>
+    <string name="title_recepty">Рецепты</string>
+    <string name="title_profil">Профиль</string>
 </resources>
