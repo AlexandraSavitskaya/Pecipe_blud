@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "903102864746",
+    "project_id": "pecipe-blud",
+    "storage_bucket": "pecipe-blud.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903102864746:android:686adc0e6119dff54e9913",
+        "android_client_info": {
+          "package_name": "com.example.pecipe_blud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvkx_oZYzZ53Oa1HC3oKkahZJCA_KnJVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
