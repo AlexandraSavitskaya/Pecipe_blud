@@ -2,61 +2,75 @@ package com.example.pecipe_blud
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.pecipe_blud.ReceptyActivity
 import com.example.pecipe_blud.databinding.ActivityMainBinding
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.auth.ktx.auth
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mainBinding: ActivityMainBinding
-    //private lateinit var editTextLogin: EditText
-    //private lateinit var editTextPassword: EditText
-    //private lateinit var buttonLogin: Button
-    //private lateinit var textViewMessage: TextView
 
-    //private val correctLogin = "Savitskaya"
-    //private val correctPassword = "qwerty"
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Firebase.auth.signOut()
+        // Инициализация Firebase
+        auth = Firebase.auth
 
-        //editTextLogin = findViewById(R.id.editTextTextEmailAddress)
-        //editTextPassword = findViewById(R.id.editTextTextPassword)
-        //buttonLogin = findViewById(R.id.button)
-        //textViewMessage = findViewById(R.id.textView)
+        // Настройка ViewBinding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        mainBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(mainBinding.root)
+        // Кнопка входа
+        binding.button.setOnClickListener {
+            val email = binding.editTextTextEmailAddress.text.toString().trim()
+            val password = binding.editTextTextPassword.text.toString().trim()
 
-        mainBinding.button.setOnClickListener {
-
-            //val enteredLogin = mainBinding.editTextTextEmailAddress.text.toString()
-            //val enteredPassword = mainBinding.editTextTextPassword.text.toString()
-            //Если почта и пароль верные
-            //if ("@+id/editTextTextEmailAddress" == correctLogin && "@+id/editTextTextPassword" == correctPassword) {
-            // Тогда осуществляется переход на ReceptyActivity
-            val intent = Intent(this,ReceptyActivity::class.java)
-            startActivity(intent)
-
-            // }
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
+            } else {
+                loginUser(email, password)
+            }
         }
-        mainBinding.textView2.setOnClickListener {
-            val intent = Intent(this,
-                ReceptyActivity::class.java
-            )
-            startActivity(intent)
+
+        // Кнопка регистрации
+        binding.textView1.setOnClickListener {
+            startActivity(Intent(this, RegistrationActivity::class.java))
         }
-        mainBinding.textView1.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java
-            )
-            startActivity(intent)
+
+        // Вход без регистрации
+        binding.textView2.setOnClickListener {
+            startActivity(Intent(this, ReceptyActivity::class.java))
         }
     }
 
+    private fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Успешный вход без проверки email
+                    startActivity(Intent(this, ReceptyActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Ошибка: ${task.exception?.message ?: "Неверные данные"}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Автоматический вход если пользователь уже авторизован
+        //if (auth.currentUser != null) {
+            //startActivity(Intent(this, ReceptyActivity::class.java))
+            //finish()
+        //}
+    }
 }

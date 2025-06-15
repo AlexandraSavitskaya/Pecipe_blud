@@ -15,31 +15,28 @@ import com.example.pecipe_blud.databinding.ActivityRegistrationBinding
 
 class RegistrationActivity : AppCompatActivity() {
 
-    // Инициализация Firebase Auth
     private lateinit var auth: FirebaseAuth
 
-    // ViewBinding
     private lateinit var binding: ActivityRegistrationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Инициализация ViewBinding
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Получаем экземпляр FirebaseAuth
+
         auth = Firebase.auth
 
-        // Обработка системных окон
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Обработка нажатия кнопки регистрации
+        // Слушатель нажатия кнопки регистрации
         binding.button2.setOnClickListener {
             registerUser()
         }
@@ -51,7 +48,7 @@ class RegistrationActivity : AppCompatActivity() {
         val confirmPassword = binding.editTextTextPassword3.text.toString().trim()
         val name = binding.editTextText.text.toString().trim()
 
-        // Валидация полей
+        // Проверка полей
         if (email.isEmpty()) {
             binding.editTextTextEmailAddress2.error = "Email обязателен"
             binding.editTextTextEmailAddress2.requestFocus()
@@ -86,7 +83,7 @@ class RegistrationActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Успешная регистрация
+
                     val user = auth.currentUser
                     Toast.makeText(
                         this, "Регистрация успешна!",
@@ -94,7 +91,6 @@ class RegistrationActivity : AppCompatActivity() {
                     ).show()
                     updateUI(user)
                 } else {
-                    // Ошибка регистрации
                     Toast.makeText(
                         this, "Ошибка: ${task.exception?.message}",
                         Toast.LENGTH_SHORT
@@ -113,7 +109,8 @@ class RegistrationActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Проверяем, вошел ли пользователь
+
+
         val currentUser = auth.currentUser
         updateUI(currentUser)
     }
